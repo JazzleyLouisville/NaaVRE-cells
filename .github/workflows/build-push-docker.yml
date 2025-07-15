@@ -2,7 +2,6 @@ name: Build Cell
 
 on:
   workflow_dispatch:
-    branches: [ main ]
     inputs:
       build_dir:
         description : 'Build Directory'
@@ -70,7 +69,7 @@ jobs:
     - name: Login to container registry
       uses: docker/login-action@v3
       env:
-        REGISTRY_NAME: ${{ vars.REGISTRY_NAME || 'ghcr.io' }}
+        REGISTRY_NAME: ${{ vars.REGISTRY_NAME || '127.0.0.1:5005' }}
         REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME || github.actor }}
         REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD || secrets.GITHUB_TOKEN }}
       with:
@@ -113,4 +112,4 @@ jobs:
         cache-from: type=gha
         cache-to: type=gha,mode=min
         push: true
-        registry: ${{ vars.REGISTRY_NAME || 'ghcr.io' }}
+        registry: ${{ vars.REGISTRY_NAME || '127.0.0.1:5005' }}
