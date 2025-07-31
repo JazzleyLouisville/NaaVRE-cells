@@ -71,7 +71,7 @@ jobs:
       env:
         REGISTRY_NAME: ${{ vars.REGISTRY_NAME || '127.0.0.1:5005' }}
         REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME || github.actor }}
-        REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD || secrets.GITHUB_TOKEN }}
+        REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD || secrets.GH_TOKEN }}
       with:
         registry: ${{ env.REGISTRY_NAME }}
         username: ${{ env.REGISTRY_USERNAME }}
