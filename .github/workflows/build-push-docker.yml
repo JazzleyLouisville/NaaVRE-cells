@@ -84,9 +84,9 @@ jobs:
       id: set-docker-tag
       run: |
         if [[ -n "${{ github.event.inputs.image_version }}" ]]; then
-          DOCKER_TAG="${{ github.event.inputs.image_repo }}/${{ github.event.inputs.image_tag }}:${{ github.event.inputs.image_version }}"
+          DOCKER_TAG="ghcr.io/JazzleyLouisville/NaaVRE-cells/${{ github.event.inputs.image_tag }}:${{ github.event.inputs.image_version }}"
         else
-          DOCKER_TAG="${{ github.event.inputs.image_repo }}/${{ github.event.inputs.image_tag }}"
+          DOCKER_TAG="ghcr.io/JazzleyLouisville/NaaVRE-cells/${{ github.event.inputs.image_tag }}"
         fi
         echo "Setting Docker Image Tag to: $DOCKER_TAG"
         echo "docker_tag=$DOCKER_TAG" >> "$GITHUB_OUTPUT"
