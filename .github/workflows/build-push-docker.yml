@@ -1,115 +1,92 @@
-name: Build Cell 
+name: Build & Push Cell
 
 on:
   workflow_dispatch:
     inputs:
       build_dir:
-        description : 'Build Directory'
-        required    : true
-        default     : ''
+        description: "Build context directory"
+        required: true
+        default: ""
       dockerfile:
-        description : 'Dockerfile Name'
-        required    : true
-        default     : ''
-      image_repo:
-        description : 'Image Repository'
-        required    : true
-        default     : ''
-      image_tag:
-        description : "Image Tag"
-        required    : true
-        default     : ''
+        description: "Dockerfile name (relative to build_dir)"
+        required: true
+        default: "Dockerfile"
+      cell_name:
+        description: "Cell (image) name – e.g. input-dev-localhost"
+        required: true
       image_version:
-        description : "Image Version"
-        required    : false
-        default     : ''
-      id:
-        description: 'run identifier'
+        description: "Optional extra version tag (defaults to commit SHA)"
         required: false
+        default: ""
+      id:
+        description: "Run identifier (passed through to job name)"
+        required: false
+        default: "manual"
 
-permissions: write-all
+# ──────────────────────────────────────────────────────────────────────────────
+# In GHCR the image must live inside some repo. We use the *current* repo owner
+# plus a dedicated package namespace `naavre-cells`.
+# Example result: ghcr.io/jazzleylouisville/naavre-cells/<cell_name>:<tag>
+# ──────────────────────────────────────────────────────────────────────────────
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAMESPACE: ${{ github.repository_owner }}/naavre-cells
+  # The final tag is computed later in a step so we can reuse it.
+
+permissions:
+  contents: read
+  packages: write
 
 jobs:
-  choose-runner:
+  build:
     runs-on: ubuntu-latest
-    outputs:
-      runner: ${{ steps.choose-runner.outputs.runner }}
+    name: Build‑${{ github.event.inputs.id || 'cell' }}
+
     steps:
-      - id: choose-runner
-        uses: QCDIS/choose-action-runner@v2
-        env:
-          PREFERRED_ACTIONS_RUNNER: ${{ vars.PREFERRED_ACTIONS_RUNNER || 'ubuntu-latest' }}
-          FALLBACK_RUNNER: ubuntu-latest
-          RUNNER_ACCESS_TOKEN: ${{ secrets.RUNNER_ACCESS_TOKEN }}
+      - uses: actions/checkout@v4
+
+      # ───── 1. Log in to GHCR ───────────────────────────────────────────────
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
         with:
-          preferred-runner: ${{ env.PREFERRED_ACTIONS_RUNNER }}
-          fallback-runner: ${{ env.FALLBACK_RUNNER }}
-          github-token: ${{ env.RUNNER_ACCESS_TOKEN }}
-        if: ${{ env.RUNNER_ACCESS_TOKEN != null }}
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_PAT }}
 
-  build-push:
-    needs: [choose-runner]
-    runs-on: ${{ needs.choose-runner.outputs.runner || 'ubuntu-latest' }}
-    name: ${{github.event.inputs.id}}
-    steps:
-    - id: commit
-      uses: prompt/actions-commit-hash@v3
-              
-    - uses: actions/checkout@v4
+      # ───── 2. Set up Buildx (for cache & multi‑platform) ───────────────────
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-    # If build_dir is empty or build_dir
-    - name: Check build directory
-      run: |
-        if [[ -z "${{ github.event.inputs.build_dir }}" ]]; then
-          git pull origin main
-        fi
-      shell: bash
+      # ───── 3. Compute the full image tag(s) ────────────────────────────────
+      - id: set-tags
+        run: |
+          SHA_TAG=${{ github.sha }}
+          CELL="${{ github.event.inputs.cell_name }}"
+          if [[ -n "${{ github.event.inputs.image_version }}" ]]; then
+            EXTRA_TAG="${{ github.event.inputs.image_version }}"
+          else
+            EXTRA_TAG="${SHA_TAG}"
+          fi
+          IMAGE_BASE="${{ env.REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/${CELL}"
+          echo "IMAGE_SHA=${IMAGE_BASE}:${SHA_TAG}"      >> "$GITHUB_OUTPUT"
+          echo "IMAGE_EXTRA=${IMAGE_BASE}:${EXTRA_TAG}"  >> "$GITHUB_OUTPUT"
+          echo "IMAGE_LATEST=${IMAGE_BASE}:latest"       >> "$GITHUB_OUTPUT"
 
+      # ───── 4. Build & push ─────────────────────────────────────────────────
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: ${{ github.event.inputs.build_dir }}
+          file: ${{ github.event.inputs.build_dir }}/${{ github.event.inputs.dockerfile }}
+          push: true
+          tags: |
+            ${{ steps.set-tags.outputs.IMAGE_SHA }}
+            ${{ steps.set-tags.outputs.IMAGE_EXTRA }}
+            ${{ steps.set-tags.outputs.IMAGE_LATEST }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
-    - name: Login to container registry
-      uses: docker/login-action@v3
-      env:
-        REGISTRY_NAME: ${{ vars.REGISTRY_NAME || '127.0.0.1:5005' }}
-        REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME || github.actor }}
-        REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD || secrets.GITHUB_TOKEN }}
-      with:
-        registry: ${{ env.REGISTRY_NAME }}
-        username: ${{ env.REGISTRY_USERNAME }}
-        password: ${{ env.REGISTRY_PASSWORD }}
-
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-
-    - name: Set Docker Image Tag
-      id: set-docker-tag
-      run: |
-        if [[ -n "${{ github.event.inputs.image_version }}" ]]; then
-          DOCKER_TAG="${{ github.event.inputs.image_repo }}/${{ github.event.inputs.image_tag }}:${{ github.event.inputs.image_version }}"
-        else
-          DOCKER_TAG="${{ github.event.inputs.image_repo }}/${{ github.event.inputs.image_tag }}"
-        fi
-        echo "Setting Docker Image Tag to: $DOCKER_TAG"
-        echo "docker_tag=$DOCKER_TAG" >> "$GITHUB_OUTPUT"
-      shell: bash
-
-    - name: Print variables
-      run: |
-        echo "context: ${{ github.event.inputs.build_dir }}"
-        echo "Dockerfile Name: ${{ github.event.inputs.dockerfile }}"
-        echo "Image Repository: ${{ github.event.inputs.image_repo }}"
-        echo "Image Tag: ${{ github.event.inputs.image_tag }}"
-        echo "Run Identifier: ${{ github.event.inputs.id }}"
-        echo "hash: ${{ steps.commit.outputs.short }}"
-        echo "hash: ${{github.sha}}"
-        echo "docker_tag: ${{steps.set-docker-tag.outputs.docker_tag}}"
-      
-    - name: Build docker
-      uses: docker/build-push-action@v5
-      with:
-        context: ${{ github.event.inputs.build_dir }}
-        file: ${{ github.event.inputs.build_dir }}/${{ github.event.inputs.dockerfile }}
-        tags: ${{steps.set-docker-tag.outputs.docker_tag}},${{ github.event.inputs.image_repo }}/${{ github.event.inputs.image_tag }}:latest
-        cache-from: type=gha
-        cache-to: type=gha,mode=min
-        push: true
-        registry: ${{ vars.REGISTRY_NAME || '127.0.0.1:5005' }}
+      # ───── 5. Output the main tag (sha) so NaaVRE can read it if needed ────
+      - name: Export image tag
+        run: echo "::set-output name=cell_image::${{ steps.set-tags.outputs.IMAGE_SHA }}"
