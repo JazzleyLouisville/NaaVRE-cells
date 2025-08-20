@@ -8,7 +8,7 @@ arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument('--id', action='store', type=str, required=True, dest='id')
 
 
-arg_parser.add_argument('--names', action='store', type=str, required=True, dest='names')
+arg_parser.add_argument('--test_file', action='store', type=str, required=True, dest='test_file')
 
 
 args = arg_parser.parse_args()
@@ -16,10 +16,10 @@ print(args)
 
 id = args.id
 
-names = json.loads(args.names)
+test_file = json.loads(args.test_file)
 
 
 
-for name in names:
-    print(name)
+for test in test_file:
+    print(test)
 
