@@ -21,7 +21,7 @@ follwers = args.follwers
 
 
 numbers = ["x","y","z","a"]
-followers = [1,2,3,4,5,6]
+followers = [1,2,3,4,5,6,7,9,10]
 pasta = [numbers,follwers]
 
 file_numbers = open("/tmp/numbers_" + id + ".json", "w")
