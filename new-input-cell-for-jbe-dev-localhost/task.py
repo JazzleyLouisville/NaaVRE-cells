@@ -17,7 +17,7 @@ id = args.id
 
 
 
-numbers = ["x","y","z","a","q"]
+numbers = ["x","y","z","a"]
 
 file_numbers = open("/tmp/numbers_" + id + ".json", "w")
 file_numbers.write(json.dumps(numbers))
