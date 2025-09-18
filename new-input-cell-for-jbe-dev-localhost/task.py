@@ -18,7 +18,7 @@ id = args.id
 
 
 numbers = ["x","y","z","a"]
-followers = [1,2,3,4,5,6,7,9,10,11]
+followers = [1,2,3,4,5,6,7,9,10,11,12,13]
 pasta = [numbers,followers]
 
 file_numbers = open("/tmp/numbers_" + id + ".json", "w")
