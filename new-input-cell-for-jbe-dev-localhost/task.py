@@ -8,21 +8,18 @@ arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument('--id', action='store', type=str, required=True, dest='id')
 
 
-arg_parser.add_argument('--follwers', action='store', type=None, required=True, dest='follwers')
-
 
 args = arg_parser.parse_args()
 print(args)
 
 id = args.id
 
-follwers = args.follwers
 
 
 
 numbers = ["x","y","z","a"]
 followers = [1,2,3,4,5,6,7,9,10]
-pasta = [numbers,follwers]
+pasta = [numbers,followers]
 
 file_numbers = open("/tmp/numbers_" + id + ".json", "w")
 file_numbers.write(json.dumps(numbers))
