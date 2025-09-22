@@ -31,6 +31,7 @@ sensor_data = pd.DataFrame({
 }, index=time_index)
 
 sensor_data.head()
+print(type(sensor_data.head()))
 
 file_sensor_data = open("/tmp/sensor_data_" + id + ".json", "w")
 file_sensor_data.write(json.dumps(sensor_data))
