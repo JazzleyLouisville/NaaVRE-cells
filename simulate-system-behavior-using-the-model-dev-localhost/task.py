@@ -9,9 +9,9 @@ arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument('--id', action='store', type=str, required=True, dest='id')
 
 
-arg_parser.add_argument('--cleaned_data', action='store', type=float, required=True, dest='cleaned_data')
+arg_parser.add_argument('--cleaned_json_data', action='store', type=str, required=True, dest='cleaned_json_data')
 
-arg_parser.add_argument('--model_output', action='store', type=float, required=True, dest='model_output')
+arg_parser.add_argument('--model_output', action='store', type=str, required=True, dest='model_output')
 
 
 args = arg_parser.parse_args()
@@ -19,12 +19,12 @@ print(args)
 
 id = args.id
 
-cleaned_data = args.cleaned_data
-model_output = args.model_output
+cleaned_json_data = json.loads(args.cleaned_json_data)
+model_output = json.loads(args.model_output)
 
 
 
-
+cleaned_data = pd.read_json(cleaned_json_data, orient='records')
 simulation_df = pd.DataFrame({
     'timestamp': cleaned_data.index,
     'simulated_temperature': model_output
