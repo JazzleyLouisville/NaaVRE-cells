@@ -1,0 +1,40 @@
+
+import argparse
+import json
+import os
+arg_parser = argparse.ArgumentParser()
+
+
+arg_parser.add_argument('--id', action='store', type=str, required=True, dest='id')
+
+
+arg_parser.add_argument('--cleaned_data', action='store', type=float, required=True, dest='cleaned_data')
+
+arg_parser.add_argument('--simulation_df', action='store', type=float, required=True, dest='simulation_df')
+
+
+args = arg_parser.parse_args()
+print(args)
+
+id = args.id
+
+cleaned_data = args.cleaned_data
+simulation_df = args.simulation_df
+
+
+
+latest_real = cleaned_data.iloc[-1]
+latest_sim = simulation_df.iloc[-1]
+
+digital_twin_state = {
+    'timestamp': latest_real.name,
+    'real_temperature': latest_real['temperature'],
+    'simulated_temperature': latest_sim['simulated_temperature'],
+    'delta': latest_real['temperature'] - latest_sim['simulated_temperature']
+}
+
+digital_twin_state
+
+file_digital_twin_state = open("/tmp/digital_twin_state_" + id + ".json", "w")
+file_digital_twin_state.write(json.dumps(digital_twin_state))
+file_digital_twin_state.close()
