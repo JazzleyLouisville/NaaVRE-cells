@@ -9,7 +9,7 @@ arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument('--id', action='store', type=str, required=True, dest='id')
 
 
-arg_parser.add_argument('--digital_twin_state', action='store', type=float, required=True, dest='digital_twin_state')
+arg_parser.add_argument('--digital_twin_state', action='store', type=str, required=True, dest='digital_twin_state')
 
 
 args = arg_parser.parse_args()
@@ -17,7 +17,7 @@ print(args)
 
 id = args.id
 
-digital_twin_state = args.digital_twin_state
+digital_twin_state = json.loads(args.digital_twin_state)
 
 
 
