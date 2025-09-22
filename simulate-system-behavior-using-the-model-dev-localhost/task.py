@@ -13,7 +13,7 @@ arg_parser.add_argument('--id', action='store', type=str, required=True, dest='i
 
 arg_parser.add_argument('--cleaned_json_data', action='store', type=str, required=True, dest='cleaned_json_data')
 
-arg_parser.add_argument('--model_output', action='store', type=str, required=True, dest='model_output')
+arg_parser.add_argument('--model_output_list', action='store', type=str, required=True, dest='model_output_list')
 
 
 args = arg_parser.parse_args()
@@ -22,13 +22,13 @@ print(args)
 id = args.id
 
 cleaned_json_data = json.loads(args.cleaned_json_data)
-model_output = json.loads(args.model_output)
+model_output_list = json.loads(args.model_output_list)
 
 
 
 
 cleaned_data = pd.read_json(StringIO(cleaned_json_data), orient='records')
-model_output = model_output[:5]
+model_output = np.array(model_output_list)
 t = np.linspace(0, 20, len(cleaned_data))
 
 simulation_df = pd.DataFrame({
