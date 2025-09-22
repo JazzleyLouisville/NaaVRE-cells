@@ -21,6 +21,7 @@ json_data = json.loads(args.json_data)
 
 
 
+
 cleaned_data = pd.read_json(json_data, orient='records')
 cleaned_data = cleaned_data[(cleaned_data['humidity'] >= 20) & (cleaned_data['humidity'] <= 80)]
 
