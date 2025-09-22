@@ -20,7 +20,8 @@ xs2 = json.loads(args.xs2)
 
 
 
-s = sum(xs2)
+s = sum(xs2)/0
+
 print('sum(xs2) =', s)
 
 file_s = open("/tmp/s_" + id + ".json", "w")
