@@ -8,7 +8,7 @@ arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument('--id', action='store', type=str, required=True, dest='id')
 
 
-arg_parser.add_argument('--sensor_data', action='store', type=float, required=True, dest='sensor_data')
+arg_parser.add_argument('--sensor_data', action='store', type=str, required=True, dest='sensor_data')
 
 
 args = arg_parser.parse_args()
@@ -16,7 +16,7 @@ print(args)
 
 id = args.id
 
-sensor_data = args.sensor_data
+sensor_data = json.loads(args.sensor_data)
 
 
 
