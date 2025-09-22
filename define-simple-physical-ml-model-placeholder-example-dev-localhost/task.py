@@ -11,7 +11,7 @@ arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument('--id', action='store', type=str, required=True, dest='id')
 
 
-arg_parser.add_argument('--cleaned_json_data', action='store', type=str, required=True, dest='cleaned_json_data')
+arg_parser.add_argument('--cleaned_json_data', action='store', type=None, required=True, dest='cleaned_json_data')
 
 
 args = arg_parser.parse_args()
@@ -19,7 +19,7 @@ print(args)
 
 id = args.id
 
-cleaned_json_data = json.loads(args.cleaned_json_data)
+cleaned_json_data = args.cleaned_json_data
 
 
 
