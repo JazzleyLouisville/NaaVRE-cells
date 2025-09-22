@@ -31,6 +31,7 @@ sensor_data = pd.DataFrame({
 }, index=time_index)
 
 json_data = sensor_data.to_json(orient='records', date_format='iso')
+json_data
 
 file_json_data = open("/tmp/json_data_" + id + ".json", "w")
 file_json_data.write(json.dumps(json_data))
