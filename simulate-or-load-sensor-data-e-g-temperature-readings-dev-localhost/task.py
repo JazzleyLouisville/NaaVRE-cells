@@ -30,9 +30,8 @@ sensor_data = pd.DataFrame({
     'humidity': 50 + 10 * np.random.randn(100)
 }, index=time_index)
 
-sensor_data.head()
-print(type(sensor_data.head()))
+json_data = sensor_data.to_json(orient='records', date_format='iso')
 
-file_sensor_data = open("/tmp/sensor_data_" + id + ".json", "w")
-file_sensor_data.write(json.dumps(sensor_data))
-file_sensor_data.close()
+file_json_data = open("/tmp/json_data_" + id + ".json", "w")
+file_json_data.write(json.dumps(json_data))
+file_json_data.close()
