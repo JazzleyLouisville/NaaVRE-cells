@@ -1,3 +1,4 @@
+import pandas as pd
 
 import argparse
 import json
@@ -8,9 +9,9 @@ arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument('--id', action='store', type=str, required=True, dest='id')
 
 
-arg_parser.add_argument('--cleaned_data', action='store', type=float, required=True, dest='cleaned_data')
+arg_parser.add_argument('--cleaned_json_data', action='store', type=str, required=True, dest='cleaned_json_data')
 
-arg_parser.add_argument('--simulation_df', action='store', type=float, required=True, dest='simulation_df')
+arg_parser.add_argument('--simulation_df', action='store', type=str, required=True, dest='simulation_df')
 
 
 args = arg_parser.parse_args()
@@ -18,11 +19,12 @@ print(args)
 
 id = args.id
 
-cleaned_data = args.cleaned_data
-simulation_df = args.simulation_df
+cleaned_json_data = json.loads(args.cleaned_json_data)
+simulation_df = json.loads(args.simulation_df)
 
 
 
+cleaned_data = pd.read_json(cleaned_json_data, orient='records')
 latest_real = cleaned_data.iloc[-1]
 latest_sim = simulation_df.iloc[-1]
 
