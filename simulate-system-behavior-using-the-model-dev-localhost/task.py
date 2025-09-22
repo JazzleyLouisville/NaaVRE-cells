@@ -1,3 +1,5 @@
+from io import StringIO
+import numpy as np
 import pandas as pd
 
 import argparse
@@ -24,14 +26,19 @@ model_output = json.loads(args.model_output)
 
 
 
-cleaned_data = pd.read_json(cleaned_json_data, orient='records')
+
+cleaned_data = pd.read_json(StringIO(cleaned_json_data), orient='records')
+model_output = model_output[:5]
+t = np.linspace(0, 20, len(cleaned_data))
+
 simulation_df = pd.DataFrame({
     'timestamp': cleaned_data.index,
     'simulated_temperature': model_output
 }).set_index('timestamp')
 
-simulation_df.head()
 
-file_simulation_df = open("/tmp/simulation_df_" + id + ".json", "w")
-file_simulation_df.write(json.dumps(simulation_df))
-file_simulation_df.close()
+json_data_simulation_df = simulation_df.head().to_json(orient='records', date_format='iso')
+
+file_json_data_simulation_df = open("/tmp/json_data_simulation_df_" + id + ".json", "w")
+file_json_data_simulation_df.write(json.dumps(json_data_simulation_df))
+file_json_data_simulation_df.close()
