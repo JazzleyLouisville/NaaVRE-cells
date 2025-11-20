@@ -12,3 +12,5 @@ FROM ghcr.io/qcdis/naavre/naavre-cell-runtime-python:v0.22.18 AS runtime
 COPY --from=build /venv /venv
 WORKDIR /app
 COPY . .
+LABEL org.opencontainers.image.source="https://github.com/JazzleyLouisville/NaaVRE-cells.git"
+LABEL org.opencontainers.image.title="updownleftrightgoodnight-test-user-2"
