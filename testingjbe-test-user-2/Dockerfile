@@ -16,3 +16,4 @@ LABEL org.opencontainers.image.source="https://github.com/JazzleyLouisville/NaaV
 LABEL org.opencontainers.image.title="testingjbe-test-user-2"
 LABEL naavre.source.notebook_path="testing_jbe.ipynb"
 LABEL naavre.source.cell_id="343711bc-8626-476d-a2ec-6ecdc5445020"
+LABEL naavre.source.deep_link="/lab?notebook=testing_jbe.ipynb&cellId=343711bc-8626-476d-a2ec-6ecdc5445020"
