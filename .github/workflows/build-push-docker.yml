@@ -129,8 +129,8 @@ jobs:
       with:
         context: ${{ github.event.inputs.build_dir }}
         file: ${{ github.event.inputs.build_dir }}/${{ github.event.inputs.dockerfile }}
-        # platforms: linux/amd64,linux/arm64
-        platforms: linux/arm64
+        platforms: linux/amd64,linux/arm64
+        # platforms: linux/arm64
         tags: ghcr.io/jazzleylouisville/naavre-cells/${{ github.event.inputs.image_tag }}:${{ github.event.inputs.image_version }}
         cache-from: type=gha
         cache-to: type=gha,mode=min
