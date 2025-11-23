@@ -21,5 +21,5 @@ names = json.loads(args.names)
 
 
 for name in names:
-    print(names[1])
+    print(names)
 
