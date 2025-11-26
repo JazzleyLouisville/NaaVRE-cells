@@ -14,4 +14,6 @@ WORKDIR /app
 COPY . .
 LABEL org.opencontainers.image.source="https://github.com/JazzleyLouisville/NaaVRE-cells.git"
 LABEL org.opencontainers.image.title="testingjbeoutput-test-user-2"
-LABEL naavre.source.notebook_path="testing_jbe.ipynb"
+LABEL naavre.source.notebook_path="testing_jbe-Copy1.ipynb"
+LABEL naavre.source.cell_id="d2e8ec96-1681-4edc-93a0-69a84eab9930"
+LABEL naavre.source.deep_link="/lab?notebook=testing_jbe-Copy1.ipynb&cellId=d2e8ec96-1681-4edc-93a0-69a84eab9930"
