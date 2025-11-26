@@ -21,7 +21,7 @@ names = json.loads(args.names)
 
 
 for name in names:
-
-    x = 1
     print(name)
+
+    y = 2
 
