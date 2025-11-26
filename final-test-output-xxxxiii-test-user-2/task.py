@@ -24,8 +24,14 @@ for name in names:
     print(name)
 
 
+    
+
+
+    z = 3
+    z = 3
+    y = 2
 
     y = 2
-    y = 2
+    z = 3
     y = 2
 
