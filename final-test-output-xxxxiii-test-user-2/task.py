@@ -24,6 +24,8 @@ for name in names:
     print(name)
 
 
+
+    y = 2
     y = 2
     y = 2
 
