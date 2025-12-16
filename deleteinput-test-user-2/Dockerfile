@@ -1,0 +1,19 @@
+FROM ghcr.io/qcdis/naavre/naavre-cell-build-python:v0.22.18 AS build
+COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yaml .
+RUN micromamba install -y -n venv -f environment.yaml
+ARG MAMBA_DOCKERFILE_ACTIVATE=1
+USER root
+RUN conda-pack -p /opt/conda/envs/venv -o /tmp/env.tar && \
+    mkdir /venv && cd /venv && tar xf /tmp/env.tar && \
+    rm /tmp/env.tar
+RUN /venv/bin/conda-unpack
+
+FROM ghcr.io/qcdis/naavre/naavre-cell-runtime-python:v0.22.18 AS runtime
+COPY --from=build /venv /venv
+WORKDIR /app
+COPY . .
+LABEL org.opencontainers.image.source="https://github.com/JazzleyLouisville/NaaVRE-cells.git"
+LABEL org.opencontainers.image.title="deleteinput-test-user-2"
+LABEL naavre.source.notebook_path="delete_later.ipynb"
+LABEL naavre.source.cell_id="c9b76b37-cb2c-4773-801f-3c48319cd518"
+LABEL naavre.source.deep_link="/lab?notebook=delete_later.ipynb&cellId=c9b76b37-cb2c-4773-801f-3c48319cd518"
