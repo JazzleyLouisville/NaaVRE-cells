@@ -12,3 +12,8 @@ FROM ghcr.io/qcdis/naavre/naavre-cell-runtime-python:v0.22.18 AS runtime
 COPY --from=build /venv /venv
 WORKDIR /app
 COPY . .
+LABEL org.opencontainers.image.source="https://github.com/JazzleyLouisville/NaaVRE-cells"
+LABEL org.opencontainers.image.title="output-testuser"
+LABEL naavre.source.notebook_path="test.ipynb"
+LABEL naavre.source.cell_id="bb4e46cd-fd62-4d62-a0fd-57da2c898e29"
+LABEL naavre.source.deep_link="/lab?notebook=test.ipynb&cellId=bb4e46cd-fd62-4d62-a0fd-57da2c898e29"
