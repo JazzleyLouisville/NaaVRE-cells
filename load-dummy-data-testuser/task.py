@@ -30,6 +30,6 @@ pd = args.pd
 
 df = pd.DataFrame(np.random.rand(100, 4), columns=['x', 'y', 'z', 'intensity'])
 
-processed_data = filter_point_cloud(df, threshold=0.3)
+processed_data = filter_point_cloud(df, threshold=0.4)
 print('Preprocessing complete.')
 
