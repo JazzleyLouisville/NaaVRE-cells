@@ -24,7 +24,7 @@ raw_point_cloud = json.loads(args.raw_point_cloud)
 
 df = pd.DataFrame(np.random.rand(100, 4), columns=['x', 'y', 'z', 'intensity'])
 
-processed_data = filter_point_cloud(df, threshold=0.6)
+processed_data = filter_point_cloud(df, threshold=0.5)
 print('Preprocessing complete.')
 
 file_processed_point_cloud = open("/tmp/processed_point_cloud_" + id + ".json", "w")
