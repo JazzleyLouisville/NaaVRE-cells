@@ -14,6 +14,6 @@ WORKDIR /app
 COPY . .
 LABEL org.opencontainers.image.source="https://github.com/JazzleyLouisville/NaaVRE-cells"
 LABEL org.opencontainers.image.title="create-list-testuser"
-LABEL naavre.source.notebook_path="lidar-digital-twin-experiment/Untitled.ipynb"
+LABEL naavre.source.notebook_path="lidar-digital-twin-experiment/list_processing.ipynb"
 LABEL naavre.source.cell_id="58af3762-7186-4bcc-bb70-187b20297141"
-LABEL naavre.source.deep_link="/lab?notebook=lidar-digital-twin-experiment/Untitled.ipynb&cellId=58af3762-7186-4bcc-bb70-187b20297141"
+LABEL naavre.source.deep_link="/lab?notebook=lidar-digital-twin-experiment/list_processing.ipynb&cellId=58af3762-7186-4bcc-bb70-187b20297141"
