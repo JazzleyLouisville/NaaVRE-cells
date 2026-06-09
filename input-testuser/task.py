@@ -17,7 +17,7 @@ id = args.id
 
 
 
-names = ["jAZZ"]
+names = ["Jazzley"]
 
 file_names = open("/tmp/names_" + id + ".json", "w")
 file_names.write(json.dumps(names))
