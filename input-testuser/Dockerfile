@@ -15,5 +15,5 @@ COPY . .
 LABEL org.opencontainers.image.source="https://github.com/JazzleyLouisville/NaaVRE-cells"
 LABEL org.opencontainers.image.title="input-testuser"
 LABEL naavre.source.notebook_path="lidar-digital-twin-experiment/Untitled.ipynb"
-LABEL naavre.source.cell_id="55d86369-7bde-4726-8af6-127f93625f1a"
-LABEL naavre.source.deep_link="/lab?notebook=lidar-digital-twin-experiment/Untitled.ipynb&cellId=55d86369-7bde-4726-8af6-127f93625f1a"
+LABEL naavre.source.cell_id="cf65abd2-2302-4a26-ac23-daa6a929c66e"
+LABEL naavre.source.deep_link="/lab?notebook=lidar-digital-twin-experiment/Untitled.ipynb&cellId=cf65abd2-2302-4a26-ac23-daa6a929c66e"
