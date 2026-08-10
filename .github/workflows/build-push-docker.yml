@@ -135,4 +135,3 @@ jobs:
          cache-from: type=gha
          cache-to: type=gha,mode=min
          push: true
-         registry: ${{ vars.REGISTRY_NAME || '127.0.0.1:5005' }}
