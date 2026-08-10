@@ -127,12 +127,12 @@ jobs:
     - name: Build docker
       uses: docker/build-push-action@v5
       with:
-        context: ${{ github.event.inputs.build_dir }}
-        file: ${{ github.event.inputs.build_dir }}/${{ github.event.inputs.dockerfile }}
-        platforms: linux/amd64,linux/arm64
-        # platforms: linux/arm64
-        tags: ghcr.io/jazzleylouisville/naavre-cells/${{ github.event.inputs.image_tag }}:${{ github.event.inputs.image_version }}
-        cache-from: type=gha
-        cache-to: type=gha,mode=min
-        push: true
-        registry: ${{ vars.REGISTRY_NAME || '127.0.0.1:5005' }}
+         context: ${{ github.event.inputs.build_dir }}
+         file: ${{ github.event.inputs.build_dir }}/${{ github.event.inputs.dockerfile }}
+         platforms: linux/amd64,linux/arm64
+         # platforms: linux/arm64
+         tags: ghcr.io/jazzleylouisville/naavre-cells/${{ github.event.inputs.image_tag }}:${{ github.event.inputs.image_version }}
+         cache-from: type=gha
+         cache-to: type=gha,mode=min
+         push: true
+         registry: ${{ vars.REGISTRY_NAME || '127.0.0.1:5005' }}
