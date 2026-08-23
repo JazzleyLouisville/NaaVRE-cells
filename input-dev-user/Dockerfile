@@ -14,6 +14,6 @@ WORKDIR /app
 COPY . .
 LABEL org.opencontainers.image.source="https://github.com/JazzleyLouisville/NaaVRE-cells"
 LABEL org.opencontainers.image.title="input-dev-user"
-LABEL naavre.source.notebook_path="Untitled_temp_rename.ipynb"
-LABEL naavre.source.cell_id="1b99be03-b87a-4983-a94b-555af13dcb20"
-LABEL naavre.source.deep_link="/lab?notebook=Untitled_temp_rename.ipynb&cellId=1b99be03-b87a-4983-a94b-555af13dcb20"
+LABEL naavre.source.notebook_path="temp_notebook.ipynb"
+LABEL naavre.source.cell_id="ba3bd72f-e4db-4987-b480-d60244b44758"
+LABEL naavre.source.deep_link="/lab?notebook=temp_notebook.ipynb&cellId=ba3bd72f-e4db-4987-b480-d60244b44758"
